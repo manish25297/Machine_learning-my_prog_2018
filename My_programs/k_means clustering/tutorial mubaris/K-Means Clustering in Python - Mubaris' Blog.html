@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<!-- saved from url=(0138)file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris'%20Blog.html -->
+<html lang="en" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Exploring Machine Learning and Data Science">
+    <meta name="keywords" content="Python, Mubaris, Blog, Machine Learning, Data Science, Data Visualization, R, Julia, ML, AI, DataViz">
+    <meta name="theme-color" content="#000000">
+    
+    <title>K-Means Clustering in Python - Mubaris' Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="https://mubaris.com/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://mubaris.com/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/">
+
+    <!-- Bootstrap Core CSS -->
+    <style class="anchorjs"></style><link rel="stylesheet" href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+
+    <script src="file:///C:/js/jquery.nav.js"></script><script async="" src="file://www.google-analytics.com/analytics.js"></script><script src="file://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script><script src="file://cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js"></script><script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/jquery.nav.js.download"></script><script async="" src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/analytics.js.download"></script><script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/fastclick.min.js.download"></script><script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/anchor.min.js.download"></script><script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/MathJax.js.download" type="text/javascript"></script><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style>
+  <!-- CSS -->
+  <link rel="stylesheet" href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/css">
+  <link rel="stylesheet" href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/css(1)">
+  <!-- MailChimp -->
+  <link href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; width:100%;}
+  </style>
+  <!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>K-Means Clustering in Python | Mubaris’ Blog</title>
+<meta name="generator" content="Jekyll v3.7.3">
+<meta property="og:title" content="K-Means Clustering in Python">
+<meta name="author" content="Mubaris NK">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Clustering is a type of Unsupervised learning. This is very often used when you don’t have labeled data. K-Means Clustering is one of the popular clustering algorithm. The goal of this algorithm is to find groups(clusters) in the given data. In this post we will implement K-Means algorithm using Python from scratch.">
+<meta property="og:description" content="Clustering is a type of Unsupervised learning. This is very often used when you don’t have labeled data. K-Means Clustering is one of the popular clustering algorithm. The goal of this algorithm is to find groups(clusters) in the given data. In this post we will implement K-Means algorithm using Python from scratch.">
+<link rel="canonical" href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/">
+<meta property="og:url" content="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/">
+<meta property="og:site_name" content="Mubaris’ Blog">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-10-01T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@Mubaris_NK">
+<meta name="twitter:creator" content="@Mubaris NK">
+<script type="application/ld+json">
+{"description":"Clustering is a type of Unsupervised learning. This is very often used when you don’t have labeled data. K-Means Clustering is one of the popular clustering algorithm. The goal of this algorithm is to find groups(clusters) in the given data. In this post we will implement K-Means algorithm using Python from scratch.","author":{"@type":"Person","name":"Mubaris NK"},"@type":"BlogPosting","url":"https://mubaris.com/2017/10/01/kmeans-clustering-in-python/","headline":"K-Means Clustering in Python","dateModified":"2017-10-01T00:00:00+00:00","datePublished":"2017-10-01T00:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mubaris.com/2017/10/01/kmeans-clustering-in-python/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Mubaris_NK">
+    <meta name="twitter:creator" content="@Mubaris_NK">
+    <meta name="twitter:title" content="K-Means Clustering in Python by Mubaris NK">
+    <meta name="twitter:description" content="Clustering is a type of Unsupervised learning. This is very often used when you don’t have labeled data. K-Means Clustering is one of the popular clustering algorithm. The goal of...">
+    
+      <meta name="twitter:image:src" content="https://i.imgur.com/cHrsOcl.jpg">
+      <meta name="twitter:image" content="https://i.imgur.com/cHrsOcl.jpg">
+      <meta property="og:image" content="https://i.imgur.com/cHrsOcl.jpg">
+    
+  
+    <script></script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><script type="text/javascript" async="" src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/embed.js.download"></script><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax_LineBox {display: table!important}
+.MathJax_LineBox span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Main-bold; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Main-italic; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Math-italic; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Caligraphic; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?V=2.7.0') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.3999ac261b914f8b8b5e85df0ff3eaea.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.5f8e47303ecf1055cd7c6905466d140a.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.33067ddbd4792de0b384ceb588602715.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/alfalfa.4a5fcca1fe50a757044dfd331b660625.js.download" async="" charset="UTF-8"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.3999ac261b914f8b8b5e85df0ff3eaea.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.5f8e47303ecf1055cd7c6905466d140a.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.33067ddbd4792de0b384ceb588602715.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><script type="text/javascript" async="" src="file://morning-data.disqus.com/embed.js"></script></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" style=""><div id="MathJax_Message" style="display: none;"></div><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top is-fixed is-visible" style="">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://mubaris.com/">Mubaris' Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar" class=" ">
+            <div class="navbar-collapse" style="height: 0px;">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://mubaris.com/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://mubaris.com/about/">About</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://mubaris.com/subscribe/">Subscribe</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://mubaris.com/tags/">Tags</a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://mubaris.com/CV.pdf" onclick="ga(&#39;send&#39;, &#39;event&#39;, { eventCategory: &#39;CV&#39;, eventAction: &#39;click&#39;, eventLabel: &#39;CV.pdf&#39;, eventValue: 1});" target="_blank">Resume</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<iframe style="display: none;" src="./K-Means Clustering in Python - Mubaris&#39; Blog_files/saved_resource.html"></iframe><script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/files/images/post8.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/files/images/post8.jpg')
+    }
+
+    
+</style>
+<header class="intro-header">
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="https://mubaris.com/tags/#python" title="python">python</a>
+                        
+                        <a class="tag" href="https://mubaris.com/tags/#ml" title="ml">ml</a>
+                        
+                        <a class="tag" href="https://mubaris.com/tags/#tutorial" title="tutorial">tutorial</a>
+                        
+                    </div>
+                    <h1 id="k-means-clustering-in-python">K-Means Clustering in Python</h1>
+                    
+                    
+                    <h2 class="subheading" id=""></h2>
+                    
+                    <span class="meta">Posted by Mubaris NK on October 1, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<p>Clustering is a type of <strong>Unsupervised learning</strong>. This is very often used when you don’t have labeled data. <strong>K-Means Clustering</strong> is one of the popular clustering algorithm. The goal of this algorithm is to find groups(clusters) in the given data.  In this post we will implement K-Means algorithm using Python from scratch.</p>
+
+<h2 id="k-means-clustering">K-Means Clustering<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#k-means-clustering" aria-label="Anchor link for: k means clustering" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
+
+<p>K-Means is a very simple algorithm which clusters the data into <em>K</em> number of clusters. The following image from <a href="http://pypr.sourceforge.net/kmeans.html#k-means-example">PyPR</a> is an example of K-Means Clustering.</p>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/S65Sk9c.jpg" alt="K-Means Clustering"></p>
+
+<h3 id="use-cases">Use Cases<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#use-cases" aria-label="Anchor link for: use cases" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+
+<p>K-Means is widely used for many applications.</p>
+
+<ul>
+  <li>Image Segmentation</li>
+  <li>Clustering Gene Segementation Data</li>
+  <li>News Article Clustering</li>
+  <li>Clustering Languages</li>
+  <li>Species Clustering</li>
+  <li>Anomaly Detection</li>
+</ul>
+
+<h3 id="algorithm">Algorithm<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#algorithm" aria-label="Anchor link for: algorithm" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+
+<p>Our algorithm works as follows, assuming we have inputs <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mo&gt;&amp;#x2026;&lt;/mo&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 8.388em; display: inline-block;"><span style="display: inline-block; position: relative; width: 6.982em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.617em, 1006.98em, 2.555em, -999.997em); top: -2.185em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="msubsup" id="MathJax-Span-3"><span style="display: inline-block; position: relative; width: 0.992em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.52em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-4" style="font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.576em;"><span class="mn" id="MathJax-Span-5" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-6" style="font-family: MathJax_Main;">,</span><span class="msubsup" id="MathJax-Span-7" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.992em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.52em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-8" style="font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.576em;"><span class="mn" id="MathJax-Span-9" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-10" style="font-family: MathJax_Main;">,</span><span class="msubsup" id="MathJax-Span-11" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.992em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.52em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-12" style="font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.576em;"><span class="mn" id="MathJax-Span-13" style="font-size: 70.7%; font-family: MathJax_Main;">3</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-14" style="font-family: MathJax_Main;">,</span><span class="mo" id="MathJax-Span-15" style="font-family: MathJax_Main; padding-left: 0.159em;">…</span><span class="mo" id="MathJax-Span-16" style="font-family: MathJax_Main; padding-left: 0.159em;">,</span><span class="msubsup" id="MathJax-Span-17" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 1.096em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.52em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-18" style="font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.576em;"><span class="mi" id="MathJax-Span-19" style="font-size: 70.7%; font-family: MathJax_Math-italic;">n</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.19em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.309em; border-left: 0px solid; width: 0px; height: 0.878em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mn>1</mn></msub><mo>,</mo><msub><mi>x</mi><mn>2</mn></msub><mo>,</mo><msub><mi>x</mi><mn>3</mn></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi>x</mi><mi>n</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-1">x_1, x_2, x_3, …, x_n</script> and value of <strong>K</strong></p>
+
+<ul>
+  <li><strong>Step 1</strong> - Pick K random points as cluster centers called centroids.</li>
+  <li><strong>Step 2</strong> - Assign each <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-20" style="width: 1.096em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.565em, 1000.89em, 2.451em, -999.997em); top: -2.133em; left: 0em;"><span class="mrow" id="MathJax-Span-21"><span class="msubsup" id="MathJax-Span-22"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.52em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-23" style="font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.576em;"><span class="mi" id="MathJax-Span-24" style="font-size: 70.7%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.138em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.247em; border-left: 0px solid; width: 0px; height: 0.878em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>x</mi><mi>i</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-2">x_i</script> to nearest cluster by calculating its distance to each centroid.</li>
+  <li><strong>Step 3</strong> - Find new cluster center by taking the average of the assigned points.</li>
+  <li><strong>Step 4</strong> - Repeat Step 2 and 3 until none of the cluster assignments change.</li>
+</ul>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/k4XcapI.gif" alt="K-Means Animation"></p>
+
+<p>The above animation is an example of running K-Means Clustering on a two dimensional data.</p>
+
+<h4 id="step-1">Step 1<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#step-1" aria-label="Anchor link for: step 1" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
+
+<p>We randomly pick <strong>K</strong> cluster centers(centroids). Let’s assume these are <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mo&gt;&amp;#x2026;&lt;/mo&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;k&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-25" style="width: 6.201em; display: inline-block;"><span style="display: inline-block; position: relative; width: 5.159em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.617em, 1005.16em, 2.555em, -999.997em); top: -2.185em; left: 0em;"><span class="mrow" id="MathJax-Span-26"><span class="msubsup" id="MathJax-Span-27"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-28" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mn" id="MathJax-Span-29" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-30" style="font-family: MathJax_Main;">,</span><span class="msubsup" id="MathJax-Span-31" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-32" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mn" id="MathJax-Span-33" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-34" style="font-family: MathJax_Main;">,</span><span class="mo" id="MathJax-Span-35" style="font-family: MathJax_Main; padding-left: 0.159em;">…</span><span class="mo" id="MathJax-Span-36" style="font-family: MathJax_Main; padding-left: 0.159em;">,</span><span class="msubsup" id="MathJax-Span-37" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-38" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mi" id="MathJax-Span-39" style="font-size: 70.7%; font-family: MathJax_Math-italic;">k</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.19em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.309em; border-left: 0px solid; width: 0px; height: 0.878em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>c</mi><mn>1</mn></msub><mo>,</mo><msub><mi>c</mi><mn>2</mn></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi>c</mi><mi>k</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-3">c_1, c_2, …, c_k</script>, and we can say that;</p>
+
+<p><span class="MathJax_Preview" style="color: inherit; display: none;"></span></p><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-4-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;C&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mo&gt;&amp;#x2026;&lt;/mo&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;k&lt;/mi&gt;&lt;/msub&gt;&lt;/mrow&gt;&lt;/math&gt;" role="presentation" style="text-align: center; position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-40" style="width: 8.648em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.19em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.305em, 1007.19em, 2.555em, -999.997em); top: -2.185em; left: 0em;"><span class="mrow" id="MathJax-Span-41"><span class="mi" id="MathJax-Span-42" style="font-family: MathJax_Math-italic;">C<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.055em;"></span></span><span class="mo" id="MathJax-Span-43" style="font-family: MathJax_Main; padding-left: 0.263em;">=</span><span class="texatom" id="MathJax-Span-44" style="padding-left: 0.263em;"><span class="mrow" id="MathJax-Span-45"><span class="msubsup" id="MathJax-Span-46"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-47" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mn" id="MathJax-Span-48" style="font-size: 70.7%; font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-49" style="font-family: MathJax_Main;">,</span><span class="msubsup" id="MathJax-Span-50" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-51" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mn" id="MathJax-Span-52" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-53" style="font-family: MathJax_Main;">,</span><span class="mo" id="MathJax-Span-54" style="font-family: MathJax_Main; padding-left: 0.159em;">…</span><span class="mo" id="MathJax-Span-55" style="font-family: MathJax_Main; padding-left: 0.159em;">,</span><span class="msubsup" id="MathJax-Span-56" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-57" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mi" id="MathJax-Span-58" style="font-size: 70.7%; font-family: MathJax_Math-italic;">k</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.19em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.309em; border-left: 0px solid; width: 0px; height: 1.191em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>C</mi><mo>=</mo><mrow class="MJX-TeXAtom-ORD"><msub><mi>c</mi><mn>1</mn></msub><mo>,</mo><msub><mi>c</mi><mn>2</mn></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi>c</mi><mi>k</mi></msub></mrow></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-4">C = {c_1, c_2,…, c_k}</script><p></p>
+
+<p><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-5-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;C&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-59" style="width: 0.888em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.732em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.253em, 1000.73em, 2.294em, -999.997em); top: -2.133em; left: 0em;"><span class="mrow" id="MathJax-Span-60"><span class="mi" id="MathJax-Span-61" style="font-family: MathJax_Math-italic;">C<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.055em;"></span></span></span><span style="display: inline-block; width: 0px; height: 2.138em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 1.003em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>C</mi></math></span></span><script type="math/tex" id="MathJax-Element-5">C</script> is the set of all centroids.</p>
+
+<h4 id="step-2">Step 2<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#step-2" aria-label="Anchor link for: step 2" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
+
+<p>In this step we assign each input value to closest center. This is done by calculating Euclidean(L2) distance between the point and the each centroid.</p>
+
+<p><span class="MathJax_Preview" style="color: inherit; display: none;"></span></p><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-6-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;mi&gt;arg&lt;/mi&gt;&lt;mo&gt;&amp;#x2061;&lt;/mo&gt;&lt;munder&gt;&lt;mo movablelimits=&quot;true&quot; form=&quot;prefix&quot;&gt;min&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;&amp;#x2208;&lt;/mo&gt;&lt;mi&gt;C&lt;/mi&gt;&lt;/mrow&gt;&lt;/munder&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;/math&gt;" role="presentation" style="text-align: center; position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-62" style="width: 9.586em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.971em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.148em, 1007.97em, 3.232em, -999.997em); top: -2.185em; left: 0em;"><span class="mrow" id="MathJax-Span-63"><span class="mi" id="MathJax-Span-64" style="font-family: MathJax_Main;">arg</span><span class="mo" id="MathJax-Span-65"></span><span class="munderover" id="MathJax-Span-66" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 1.669em; height: 0px;"><span style="position: absolute; clip: rect(3.18em, 1001.67em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mo" id="MathJax-Span-67" style="font-family: MathJax_Main;">min</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; clip: rect(3.336em, 1001.57em, 4.378em, -999.997em); top: -3.331em; left: 0.055em;"><span class="texatom" id="MathJax-Span-68"><span class="mrow" id="MathJax-Span-69"><span class="msubsup" id="MathJax-Span-70"><span style="display: inline-block; position: relative; width: 0.523em; height: 0px;"><span style="position: absolute; clip: rect(3.544em, 1000.32em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-71" style="font-size: 70.7%; font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.904em; left: 0.315em;"><span class="mi" id="MathJax-Span-72" style="font-size: 50%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-73" style="font-size: 70.7%; font-family: MathJax_Main;">∈</span><span class="mi" id="MathJax-Span-74" style="font-size: 70.7%; font-family: MathJax_Math-italic;">C<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.055em;"></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mi" id="MathJax-Span-75" style="font-family: MathJax_Math-italic; padding-left: 0.159em;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-76" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-77" style="font-family: MathJax_Math-italic;">s</span><span class="mi" id="MathJax-Span-78" style="font-family: MathJax_Math-italic;">t</span><span class="mo" id="MathJax-Span-79" style="font-family: MathJax_Main;">(</span><span class="msubsup" id="MathJax-Span-80"><span style="display: inline-block; position: relative; width: 0.732em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-81" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mi" id="MathJax-Span-82" style="font-size: 70.7%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-83" style="font-family: MathJax_Main;">,</span><span class="mi" id="MathJax-Span-84" style="font-family: MathJax_Math-italic; padding-left: 0.159em;">x</span><span class="msubsup" id="MathJax-Span-85"><span style="display: inline-block; position: relative; width: 0.836em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.32em, 4.43em, -999.997em); top: -4.008em; left: 0em;"><span class="mo" id="MathJax-Span-86" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -4.424em; left: 0.367em;"><span class="mn" id="MathJax-Span-87" style="font-size: 70.7%; font-family: MathJax_Main;">2</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.19em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -1.122em; border-left: 0px solid; width: 0px; height: 2.253em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><mi>arg</mi><mo>⁡</mo><munder><mo movablelimits="true" form="prefix">min</mo><mrow class="MJX-TeXAtom-ORD"><msub><mi>c</mi><mi>i</mi></msub><mo>∈</mo><mi>C</mi></mrow></munder><mi>d</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo stretchy="false">(</mo><msub><mi>c</mi><mi>i</mi></msub><mo>,</mo><mi>x</mi><msup><mo stretchy="false">)</mo><mn>2</mn></msup></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-6">\arg \min_{c_i \in C} dist(c_i, x)^2</script><p></p>
+
+<p>Where <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-7-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;d&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;s&lt;/mi&gt;&lt;mi&gt;t&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mo&gt;.&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-88" style="width: 3.44em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.867em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.305em, 1002.76em, 2.607em, -999.997em); top: -2.185em; left: 0em;"><span class="mrow" id="MathJax-Span-89"><span class="mi" id="MathJax-Span-90" style="font-family: MathJax_Math-italic;">d<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="mi" id="MathJax-Span-91" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-92" style="font-family: MathJax_Math-italic;">s</span><span class="mi" id="MathJax-Span-93" style="font-family: MathJax_Math-italic;">t</span><span class="mo" id="MathJax-Span-94" style="font-family: MathJax_Main;">(</span><span class="mo" id="MathJax-Span-95" style="font-family: MathJax_Main;">.</span><span class="mo" id="MathJax-Span-96" style="font-family: MathJax_Main; padding-left: 0.159em;">)</span></span><span style="display: inline-block; width: 0px; height: 2.19em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.316em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>d</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo stretchy="false">(</mo><mo>.</mo><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-7">dist(.)</script> is the Euclidean distance.</p>
+
+<h4 id="step-3">Step 3<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#step-3" aria-label="Anchor link for: step 3" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
+
+<p>In this step, we find the new centroid by taking the average of all the points assigned to that cluster.</p>
+
+<p><span class="MathJax_Preview" style="color: inherit; display: none;"></span></p><div class="MathJax_Display" style="text-align: center;"><span class="MathJax" id="MathJax-Element-8-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;msub&gt;&lt;mi&gt;c&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mrow&gt;&lt;mo fence=&quot;false&quot; stretchy=&quot;false&quot;&gt;&amp;#x007C;&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo fence=&quot;false&quot; stretchy=&quot;false&quot;&gt;&amp;#x007C;&lt;/mo&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;munder&gt;&lt;mo&gt;&amp;#x2211;&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;&amp;#x2208;&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/mrow&gt;&lt;/munder&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="text-align: center; position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-97" style="width: 8.128em; display: inline-block;"><span style="display: inline-block; position: relative; width: 6.773em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(0.68em, 1006.77em, 3.648em, -999.997em); top: -2.185em; left: 0em;"><span class="mrow" id="MathJax-Span-98"><span class="msubsup" id="MathJax-Span-99"><span style="display: inline-block; position: relative; width: 0.732em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.42em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-100" style="font-family: MathJax_Math-italic;">c</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.419em;"><span class="mi" id="MathJax-Span-101" style="font-size: 70.7%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-102" style="font-family: MathJax_Main; padding-left: 0.263em;">=</span><span class="mfrac" id="MathJax-Span-103" style="padding-left: 0.263em;"><span style="display: inline-block; position: relative; width: 1.617em; height: 0px; margin-right: 0.107em; margin-left: 0.107em;"><span style="position: absolute; clip: rect(3.18em, 1000.42em, 4.169em, -999.997em); top: -4.685em; left: 50%; margin-left: -0.258em;"><span class="mn" id="MathJax-Span-104" style="font-family: MathJax_Main;">1</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; clip: rect(3.128em, 1001.36em, 4.43em, -999.997em); top: -3.279em; left: 50%; margin-left: -0.727em;"><span class="mrow" id="MathJax-Span-105"><span class="mo" id="MathJax-Span-106" style="font-family: MathJax_Main;">|</span><span class="msubsup" id="MathJax-Span-107"><span style="display: inline-block; position: relative; width: 0.94em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.63em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-108" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.055em;"></span></span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.628em;"><span class="mi" id="MathJax-Span-109" style="font-size: 70.7%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-110" style="font-family: MathJax_Main;">|</span></span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; clip: rect(0.836em, 1001.62em, 1.201em, -999.997em); top: -1.247em; left: 0em;"><span style="display: inline-block; overflow: hidden; vertical-align: 0em; border-top: 1.3px solid; width: 1.617em; height: 0px;"></span><span style="display: inline-block; width: 0px; height: 1.044em;"></span></span></span></span><span class="munderover" id="MathJax-Span-111" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 1.773em; height: 0px;"><span style="position: absolute; clip: rect(2.919em, 1001.41em, 4.638em, -999.997em); top: -4.008em; left: 0.159em;"><span class="mo" id="MathJax-Span-112" style="font-family: MathJax_Size2; vertical-align: 0em;">∑</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; clip: rect(3.336em, 1001.77em, 4.378em, -999.997em); top: -2.914em; left: 0em;"><span class="texatom" id="MathJax-Span-113"><span class="mrow" id="MathJax-Span-114"><span class="msubsup" id="MathJax-Span-115"><span style="display: inline-block; position: relative; width: 0.628em; height: 0px;"><span style="position: absolute; clip: rect(3.544em, 1000.37em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-116" style="font-size: 70.7%; font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.904em; left: 0.419em;"><span class="mi" id="MathJax-Span-117" style="font-size: 50%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="mo" id="MathJax-Span-118" style="font-size: 70.7%; font-family: MathJax_Main;">∈</span><span class="msubsup" id="MathJax-Span-119"><span style="display: inline-block; position: relative; width: 0.68em; height: 0px;"><span style="position: absolute; clip: rect(3.336em, 1000.47em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-120" style="font-size: 70.7%; font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.904em; left: 0.419em;"><span class="mi" id="MathJax-Span-121" style="font-size: 50%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-122" style="padding-left: 0.159em;"><span style="display: inline-block; position: relative; width: 0.888em; height: 0px;"><span style="position: absolute; clip: rect(3.44em, 1000.52em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-123" style="font-family: MathJax_Math-italic;">x</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.576em;"><span class="mi" id="MathJax-Span-124" style="font-size: 70.7%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.19em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -1.622em; border-left: 0px solid; width: 0px; height: 3.316em;"></span></span></nobr><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>c</mi><mi>i</mi></msub><mo>=</mo><mfrac><mn>1</mn><mrow><mo fence="false" stretchy="false">|</mo><msub><mi>S</mi><mi>i</mi></msub><mo fence="false" stretchy="false">|</mo></mrow></mfrac><munder><mo>∑</mo><mrow class="MJX-TeXAtom-ORD"><msub><mi>x</mi><mi>i</mi></msub><mo>∈</mo><msub><mi>S</mi><mi>i</mi></msub></mrow></munder><msub><mi>x</mi><mi>i</mi></msub></math></span></span></div><script type="math/tex; mode=display" id="MathJax-Element-8">c_i = \frac{1}{\lvert S_i \rvert}\sum_{x_i \in S_i} x_i</script><p></p>
+
+<p><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-9-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;S&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-125" style="width: 1.148em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.94em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.253em, 1000.94em, 2.451em, -999.997em); top: -2.133em; left: 0em;"><span class="mrow" id="MathJax-Span-126"><span class="msubsup" id="MathJax-Span-127"><span style="display: inline-block; position: relative; width: 0.94em; height: 0px;"><span style="position: absolute; clip: rect(3.128em, 1000.63em, 4.169em, -999.997em); top: -4.008em; left: 0em;"><span class="mi" id="MathJax-Span-128" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.055em;"></span></span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span><span style="position: absolute; top: -3.852em; left: 0.628em;"><span class="mi" id="MathJax-Span-129" style="font-size: 70.7%; font-family: MathJax_Math-italic;">i</span><span style="display: inline-block; width: 0px; height: 4.013em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.138em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.247em; border-left: 0px solid; width: 0px; height: 1.191em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>S</mi><mi>i</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-9">S_i</script> is the set of all points assigned to the <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-10-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-130" style="width: 0.419em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.315em; height: 0px; font-size: 120%;"><span style="position: absolute; clip: rect(1.305em, 1000.26em, 2.294em, -999.997em); top: -2.133em; left: 0em;"><span class="mrow" id="MathJax-Span-131"><span class="mi" id="MathJax-Span-132" style="font-family: MathJax_Math-italic;">i</span></span><span style="display: inline-block; width: 0px; height: 2.138em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.059em; border-left: 0px solid; width: 0px; height: 0.941em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>i</mi></math></span></span><script type="math/tex" id="MathJax-Element-10">i</script><sup>th</sup> cluster.</p>
+
+<h4 id="step-4">Step 4<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#step-4" aria-label="Anchor link for: step 4" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
+
+<p>In this step, we repeat step 2 and 3 until none of the cluster assignments change. That means until our clusters remain stable, we repeat the algorithm.</p>
+
+<h3 id="choosing-the-value-of-k">Choosing the Value of K<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#choosing-the-value-of-k" aria-label="Anchor link for: choosing the value of k" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+
+<p>We often know the value of K. In that case we use the value of K. Else we use the <strong>Elbow Method</strong>.</p>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/k3o6NxK.jpg" alt="Elbow Method"></p>
+
+<p>We run the algorithm for different values of <strong>K</strong>(say K = 10 to 1) and plot the K values against SSE(Sum of Squared Errors). And select the value of K for the elbow point as shown in the figure.</p>
+
+<h3 id="implementation-using-python">Implementation using Python<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#implementation-using-python" aria-label="Anchor link for: implementation using python" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+
+<p>The dataset we are gonna use has 3000 entries with 3 clusters. So we already know the value of K.</p>
+
+<p>Checkout this <a href="https://github.com/mubaris/friendly-fortnight">Github Repo</a> for full code and dataset.</p>
+
+<p>We will start by importing the dataset.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'figure.figsize'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">'ggplot'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Importing the dataset</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'xclara.csv'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(3000, 2)
+</code></pre></div></div>
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<div class="table-responsive"><div class="table-responsive"><table border="1" class="dataframe table">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>V1</th>
+      <th>V2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2.072345</td>
+      <td>-3.241693</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>17.936710</td>
+      <td>15.784810</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.083576</td>
+      <td>7.319176</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>11.120670</td>
+      <td>14.406780</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>23.711550</td>
+      <td>2.557729</td>
+    </tr>
+  </tbody>
+</table></div></div>
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Getting the values and plotting it</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'V1'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'V2'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">'black'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/output_3_1.png" alt="png"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Euclidean Distance Caculator</span>
+<span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Number of clusters</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c"># X coordinates of random centroids</span>
+<span class="n">C_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="c"># Y coordinates of random centroids</span>
+<span class="n">C_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">C_x</span><span class="p">,</span> <span class="n">C_y</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[ 11.  26.]
+ [ 79.  56.]
+ [ 79.  21.]]
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Plotting along with the Centroids</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">'#050505'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C_x</span><span class="p">,</span> <span class="n">C_y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'*'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">'g'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/output_6_1.png" alt="png"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># To store the value of centroids when it updates</span>
+<span class="n">C_old</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c"># Cluster Lables(0, 1, 2)</span>
+<span class="n">clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="c"># Error func. - Distance between new centroids and old centroids</span>
+<span class="n">error</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">C_old</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+<span class="c"># Loop will run till the error becomes zero</span>
+<span class="k">while</span> <span class="n">error</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="c"># Assigning each value to its closest cluster</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)):</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">C</span><span class="p">)</span>
+        <span class="n">cluster</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span>
+        <span class="n">clusters</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span>
+    <span class="c"># Storing the old centroid values</span>
+    <span class="n">C_old</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+    <span class="c"># Finding the new centroids by taking the average value</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span> <span class="k">if</span> <span class="n">clusters</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">C_old</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s">'r'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'y'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'m'</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+        <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span> <span class="k">if</span> <span class="n">clusters</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">'*'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">'#050505'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/output_8_1.png" alt="png"></p>
+
+<p>From this visualization it is clear that there are 3 clusters with black stars as their centroid.</p>
+
+<p>If you run K-Means with wrong values of K, you will get completely misleading clusters. For example, if you run K-Means on this with values 2, 4, 5 and 6, you will get the following clusters.</p>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/chdUE0r.png" alt="K-means 2"></p>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/I9J0y2A.png" alt="K-means 4"></p>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/cly9t5S.png" alt="K-means 5"></p>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/z2N2oSV.png" alt="K-means 6"></p>
+
+<p>Now we will see how to implement K-Means Clustering using <strong>scikit-learn</strong></p>
+
+<h3 id="the-scikit-learn-approach">The scikit-learn approach<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#the-scikit-learn-approach" aria-label="Anchor link for: the scikit learn approach" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h3>
+
+<h4 id="example-1">Example 1<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#example-1" aria-label="Anchor link for: example 1" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
+
+<p>We will use the same dataset in this example.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c"># Number of clusters</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c"># Fitting the input data</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c"># Getting the cluster labels</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c"># Centroid values</span>
+<span class="n">centroids</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Comparing with scikit-learn centroids</span>
+<span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="c"># From Scratch</span>
+<span class="k">print</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span> <span class="c"># From sci-kit learn</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[  9.47804546  10.68605232]
+ [ 40.68362808  59.71589279]
+ [ 69.92418671 -10.1196413 ]]
+[[  9.4780459   10.686052  ]
+ [ 69.92418447 -10.11964119]
+ [ 40.68362784  59.71589274]]
+</code></pre></div></div>
+
+<p>You can see that the centroid values are equal, but in different order.</p>
+
+<h4 id="example-2">Example 2<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#example-2" aria-label="Anchor link for: example 2" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h4>
+
+<p>We will generate a new dataset using <code class="highlighter-rouge">make_blobs</code> function.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s">'figure.figsize'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+
+<span class="c"># Creating a sample dataset with 4 clusters</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">Axes3D</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/output_14_1.png" alt="png"></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Initializing KMeans</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="c"># Fitting with inputs</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c"># Predicting the clusters</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c"># Getting the cluster centers</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">Axes3D</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">C</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">C</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">C</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">'*'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">'#050505'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/output_16_1.png" alt="png"></p>
+
+<p>In the above image, you can see 4 clusters and their centroids as stars. scikit-learn approach is very simple and concise.</p>
+
+<h2 id="more-resources">More Resources<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#more-resources" aria-label="Anchor link for: more resources" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
+
+<ul>
+  <li><a href="https://www.youtube.com/watch?v=9991JlKnFmk">K-Means Clustering Video</a> by Siraj Raval</li>
+  <li><a href="http://cs229.stanford.edu/notes/cs229-notes7a.pdf">K-Means Clustering Lecture Notes</a> by Andrew Ng</li>
+  <li><a href="http://people.csail.mit.edu/dsontag/courses/ml13/slides/lecture14.pdf">K-Means Clustering Slides</a> by David	Sontag (New York University)</li>
+  <li><a target="_blank" href="http://amzn.to/2xORaMc">Programming Collective Intelligence Chapter 3</a></li>
+  <li><a target="_blank" href="http://amzn.to/2x9T5ZF">The Elements of Statistical Learning Chapter 14</a></li>
+  <li><a target="_blank" href="http://amzn.to/2x9u3Ka">Pattern Recognition and Machine Learning Chapter 9</a></li>
+</ul>
+
+<p>Checkout this <a href="https://github.com/mubaris/friendly-fortnight">Github Repo</a> for full code and dataset.</p>
+
+<h2 id="conclusion">Conclusion<a class="anchorjs-link " href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#conclusion" aria-label="Anchor link for: conclusion" data-anchorjs-icon="#" style="opacity: 1; padding-left: 0.375em;"></a></h2>
+
+<p>Even though it works very well, K-Means clustering has its own issues. That include:</p>
+
+<ul>
+  <li>If you run K-means on uniform data, you will get clusters.</li>
+  <li>Sensitive to scale due to its reliance on Euclidean distance.</li>
+  <li>Even on perfect data sets, it can get stuck in a local minimum</li>
+</ul>
+
+<p>Have a look at this <a href="https://stats.stackexchange.com/a/133841">StackOverflow Answer</a> for detailed explanation.</p>
+
+<p>Let me know if you found any errors and checkout this post on <a href="https://news.ycombinator.com/item?id=15383216">Hacker News</a></p>
+
+<div id="mc_embed_signup">
+<form action="https://mubaris.us16.list-manage.com/subscribe/post?u=f9e9a4985cce81e89169df2bf&amp;id=3654da5463" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+    <div id="mc_embed_signup_scroll">
+	<label for="mce-EMAIL">Subscribe for more Awesome!</label>
+	<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="">
+    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_f9e9a4985cce81e89169df2bf_3654da5463" tabindex="-1" value=""></div>
+    <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </div>
+</form>
+</div>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="https://mubaris.com/2017/09/28/linear-regression-from-scratch/" data-toggle="tooltip" data-placement="top" title="Linear Regression from Scratch in Python">
+                        Previous<br>
+                        <span>Linear Regression from Scratch in Python</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="https://mubaris.com/2017/10/04/project-ozii/" data-toggle="tooltip" data-placement="top" title="Project Ozii - Generating PulseGraphs from Text">
+                        Next<br>
+                        <span>Project Ozii - Generating PulseGraphs from Text</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"><iframe id="dsq-app6575" name="dsq-app6575" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./K-Means Clustering in Python - Mubaris&#39; Blog_files/saved_resource(1).html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 1206px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog fixed" style="display: block;">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5 id="catalog">
+                        <a class="catalog-toggle" href="https://mubaris.com/2017/10/01/kmeans-clustering-in-python/#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"><li class="h2_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#k-means-clustering" rel="nofollow">K-Means Clustering</a></li><li class="h3_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#use-cases" rel="nofollow">Use Cases</a></li><li class="h3_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#algorithm" rel="nofollow">Algorithm</a></li><li class="h4_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#step-1" rel="nofollow">Step 1</a></li><li class="h4_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#step-2" rel="nofollow">Step 2</a></li><li class="h4_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#step-3" rel="nofollow">Step 3</a></li><li class="h4_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#step-4" rel="nofollow">Step 4</a></li><li class="h3_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#choosing-the-value-of-k" rel="nofollow">Choosing the Value of K</a></li><li class="h3_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#implementation-using-python" rel="nofollow">Implementation using Python</a></li><li class="h3_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#the-scikit-learn-approach" rel="nofollow">The scikit-learn approach</a></li><li class="h4_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#example-1" rel="nofollow">Example 1</a></li><li class="h4_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#example-2" rel="nofollow">Example 2</a></li><li class="h2_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#more-resources" rel="nofollow">More Resources</a></li><li class="h2_nav"><a href="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog.html#conclusion" rel="nofollow">Conclusion</a></li></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5 id="featured-tags"><a href="https://mubaris.com/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+                				<a href="https://mubaris.com/tags/#data-science" title="data-science" rel="6">
+                                    data-science
+                                </a>
+                            
+        				
+                            
+                				<a href="https://mubaris.com/tags/#python" title="python" rel="13">
+                                    python
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="https://mubaris.com/tags/#tutorial" title="tutorial" rel="11">
+                                    tutorial
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="https://mubaris.com/tags/#ml" title="ml" rel="6">
+                                    ml
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "morning-data";
+    var disqus_identifier = "/2017/10/01/kmeans-clustering-in-python";
+    var disqus_url = "https://mubaris.com/2017/10/01/kmeans-clustering-in-python/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    <li>
+                        <a href="https://mubaris.com/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/Mubaris_NK">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/nk.mubaris">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/mubaris">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/mubaris-nk">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright © Mubaris' Blog 2018
+                    <br>
+                    Theme by <a href="http://huangxuan.me/">Hux</a> |
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="100px" height="20px" src="./K-Means Clustering in Python - Mubaris&#39; Blog_files/github-btn.html">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/jquery.min.js.download"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/bootstrap.min.js.download"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/hux-blog.min.js.download"></script>
+
+<!-- Service Worker -->
+
+<script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/snackbar.js.download"></script>
+<script src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/sw-registration.js.download"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-93985002-1';
+    var _gaDomain = 'mubaris.com';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+
+        // interop with multilangual 
+        /*if (  ) {
+            _containerSelector = 'div.post-container.active'
+        } else {
+            _containerSelector = 'div.post-container'
+        }*/
+
+        _containerSelector = 'div.post-container'
+
+        // init
+        var P = $(_containerSelector),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        // clean
+        $(selector).html('')
+
+        // appending
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="file:///C:/Users/machine%20learning/Desktop/My_programs/k_means%20clustering/K-Means%20Clustering%20in%20Python%20-%20Mubaris&#39;%20Blog_files/icon_wechat.png" width="0" height="0">
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+
+
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: MathJax_Size2, sans-serif;"></div></div><iframe style="display: none;" src="./K-Means Clustering in Python - Mubaris&#39; Blog_files/saved_resource(2).html"></iframe></body></html>
